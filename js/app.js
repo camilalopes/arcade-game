@@ -1,3 +1,5 @@
+// TRATAR COLISÃO E COORDENADAS FORA DO TABULEIRO
+
 // Inimigos que o jogador deve evitar
 var Enemy = function(x, y, speed) {
     // As variáveis aplicadas a nossas instâncias entram aqui.
@@ -10,7 +12,7 @@ var Enemy = function(x, y, speed) {
     this.x = x;
     // O y é na verdade a linha de tijolos que enemy está localizado [1, 2 ou 3]
     // o valor passado é recalculado para posicionar corretamente
-    this.y = (y*83) - 27;
+    this.y = (y*83) - 20;
     this.speed = speed;
 };
 
@@ -24,9 +26,15 @@ Enemy.prototype.update = function(dt) {
 };
 
 // Trata as colisões com o player
-Enemy.prototype.colision = function(){
+Enemy.prototype.collision = function(){
+  if(((this.x + 101 - 30 > player.x && this.x + 101 -30 < player.x + 101
+        || this.x >= player.x && this.x < player.x + 101 -30))
+          && this.y === player.y){
 
-};
+    wait(300);
+    player.reset();
+  }
+}
 
 // Desenhe o inimigo na tela, método exigido pelo jogo
 Enemy.prototype.render = function() {
@@ -46,31 +54,36 @@ var Player = function(){
 // Atualiza a posição do jogador, método exigido pelo jogo
 Player.prototype.update = function() {
 
-    const desloc_x = 101;
-    const desloc_y = 83;
-    switch (this.direction) {
-      case 'cima':
-        this.y -= desloc_y;
-        break;
-      case 'baixo':
-        this.y += desloc_y;
-        break;
-      case 'direita':
-        this.x += desloc_x;
-        break;
-      case 'esquerda':
-        this.x -= desloc_x;
-        break;
-      default:
-        break;
-    }
+  const desloc_x = 101;
+  const desloc_y = 83;
+  switch (this.direction) {
+    case 'cima':
+      this.y -= desloc_y;
+      break;
+    case 'baixo':
+      this.y += desloc_y;
+      break;
+    case 'direita':
+      this.x += desloc_x;
+      break;
+    case 'esquerda':
+      this.x -= desloc_x;
+      break;
+    default:
+      break;
+  }
 
-    this.direction = '';
+  this.direction = '';
 };
 
 // Desenhe o jogador na tela, método exigido pelo jogo
 Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+Player.prototype.reset = function() {
+  this.x = 202;
+  this.y = 395;
 };
 
 Player.prototype.handleInput = function(keys) {
@@ -109,3 +122,12 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+//Realiza uma pausa de alguns milisegundos
+function wait(ms){
+   var inicio = new Date().getTime();
+   var fim = inicio;
+   while(fim < inicio + ms) {
+     fim = new Date().getTime();
+  }
+}

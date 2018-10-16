@@ -83,8 +83,9 @@ var Engine = (function(global) {
      * apenas nas próprias entidades, em seu arquivo app.js).
      */
     function update(dt) {
+        checkCollisions();
         updateEntities(dt);
-        // checkCollisions();
+
     }
 
     /* É chamada pela função update, faz loops por todos os objetos dentro
@@ -99,6 +100,13 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
         player.update();
+    }
+
+    function checkCollisions() {
+        allEnemies.forEach(function(enemy) {
+            //enemy.checkCollision();
+            enemy.collision();
+        });
     }
 
     /* Esta função primeiro deseha o "nível do jogo" e, depois, chama a
