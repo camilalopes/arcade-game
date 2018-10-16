@@ -17,9 +17,10 @@ var Enemy = function(x, y, speed) {
 // Atualiza a posição do inimigo, método exigido pelo jogo
 // Parâmetro: dt, um delta de tempo entre ticks
 Enemy.prototype.update = function(dt) {
-    // Você deve multiplicar qualquer movimento pelo parâmetro
-    // dt, o que garantirá que o jogo rode na mesma velocidade
-    // em qualquer computador.
+    this.x += this.speed * dt;
+    if (this.x >= 505) {
+      this.x = -101;
+    }
 };
 
 // Trata as colisões com o player
@@ -43,7 +44,6 @@ var Player = function(){
 };
 
 // Atualiza a posição do jogador, método exigido pelo jogo
-// Parâmetro: dt, um delta de tempo entre ticks
 Player.prototype.update = function() {
 
     const desloc_x = 101;
@@ -92,8 +92,9 @@ let player = new Player();
 let allEnemies = [
     new Enemy(200, 2, 270),
     new Enemy(2, 3, 150),
-    new Enemy(100, 1, 120),
-    new Enemy(390, 3, 305)
+    new Enemy(100, 1, 220),
+    new Enemy(390, 3, 305),
+    new Enemy(250, 1, 105)
 ];
 
 // Isto reconhece cliques em teclas e envia as chaves para seu
