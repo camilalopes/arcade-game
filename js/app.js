@@ -51,28 +51,37 @@ var Player = function(){
   this.direction = '';
 };
 
-// Atualiza a posição do jogador, método exigido pelo jogo
+// Atualiza a posição (x, y) do jogador considerando a opção
+// de direção que ele escolheu, não permite que ele
+// extropole o espaço do tabuleiro do jogo
 Player.prototype.update = function() {
 
   const desloc_x = 101;
   const desloc_y = 83;
   switch (this.direction) {
     case 'cima':
+      if(this.y - desloc_y < -20)
+        return;
       this.y -= desloc_y;
       break;
     case 'baixo':
+      if(this.y + desloc_y > 395)
+        return;
       this.y += desloc_y;
       break;
     case 'direita':
+      if(this.x + desloc_x > 404)
+        return;
       this.x += desloc_x;
       break;
     case 'esquerda':
+      if(this.x - desloc_x < 0)
+        return;
       this.x -= desloc_x;
       break;
     default:
-      break;
+      return;
   }
-
   this.direction = '';
 };
 
@@ -81,10 +90,19 @@ Player.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+// Leva o jogador para sua posição de ínicio
 Player.prototype.reset = function() {
   this.x = 202;
   this.y = 395;
 };
+
+// Confere se o jogador já ganhou
+Player.prototype.victory = function(){
+  if(this.y === -20){
+    wait(300);
+    player.reset();
+  }
+}
 
 Player.prototype.handleInput = function(keys) {
   if (keys === 'up') {
@@ -119,7 +137,6 @@ document.addEventListener('keyup', function(e) {
         39: 'right',
         40: 'down'
     };
-
     player.handleInput(allowedKeys[e.keyCode]);
 });
 

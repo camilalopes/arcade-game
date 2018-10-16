@@ -84,6 +84,7 @@ var Engine = (function(global) {
      */
     function update(dt) {
         checkCollisions();
+        checkVictory();
         updateEntities(dt);
 
     }
@@ -102,11 +103,16 @@ var Engine = (function(global) {
         player.update();
     }
 
+    // Para cada inimigo é verificado se houve colisão com o jogador
     function checkCollisions() {
         allEnemies.forEach(function(enemy) {
-            //enemy.checkCollision();
             enemy.collision();
         });
+    }
+
+    // Confere se o jogador já chegou na posição vitoriosa
+    function checkVictory(){
+      player.victory();
     }
 
     /* Esta função primeiro deseha o "nível do jogo" e, depois, chama a
