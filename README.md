@@ -29,7 +29,7 @@ Abra o arquivo index.html no navegador da sua preferência e o jogo estará pron
 
 ## :clipboard: Note
 
-This game is a personal project but feel free to send me suggestions and corrections. : hearts:
+This game is a personal project but feel free to send me suggestions and corrections. :hearts:
 
 -----
 
