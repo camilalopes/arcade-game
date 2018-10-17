@@ -1,13 +1,6 @@
-// TRATAR COLISÃO E COORDENADAS FORA DO TABULEIRO
-
 // Inimigos que o jogador deve evitar
 var Enemy = function(x, y, speed) {
-    // As variáveis aplicadas a nossas instâncias entram aqui.
-    // Fornecemos uma a você para que possa começcar.
-
-    // A imagem/sprite de nossos inimigos, isso usa um
-    // ajudante que é fornecido para carregar imagens
-    // com facilidade.
+    //imagem sprite que representa graficamente o inimigo
     this.sprite = 'images/enemy-bug.png';
     this.x = x;
     // O y é na verdade a linha de tijolos que enemy está localizado [1, 2 ou 3]
@@ -16,7 +9,7 @@ var Enemy = function(x, y, speed) {
     this.speed = speed;
 };
 
-// Atualiza a posição do inimigo, método exigido pelo jogo
+// Atualiza a posição do inimigo
 // Parâmetro: dt, um delta de tempo entre ticks
 Enemy.prototype.update = function(dt) {
     this.x += this.speed * dt;
@@ -31,23 +24,24 @@ Enemy.prototype.collision = function(){
         || this.x >= player.x && this.x < player.x + 101 -30))
           && this.y === player.y){
 
-    wait(300);
-    player.reset();
+    wait(300); //efeito de uma pausa rápida antes de reiniciar
+    player.reset(); //volta o jogador a sua posição inicial
+    score.loseCount(); //atualiza o núm. de derrotas
   }
 }
 
-// Desenhe o inimigo na tela, método exigido pelo jogo
+// Desenha o inimigo na tela
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// Agora, escreva sua própria classe de jogador
-// Esta classe exige um método update(),
-// um render() e um handleInput().
+// Classe do jogador
 var Player = function(){
   this.sprite = 'images/char-pink-girl.png';
   this.x = 202;
   this.y = 395;
+  // Qual a direção o jogador irá mover?
+  // (cima, baixo, direita, esquerda)
   this.direction = '';
 };
 
@@ -85,7 +79,7 @@ Player.prototype.update = function() {
   this.direction = '';
 };
 
-// Desenhe o jogador na tela, método exigido pelo jogo
+// Desenha o jogador na tela
 Player.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
@@ -101,9 +95,11 @@ Player.prototype.victory = function(){
   if(this.y === -20){
     wait(300);
     player.reset();
+    score.winCount(); // Atualiza o núm. de vitórias
   }
 }
 
+// Trata a solicitação de movimento
 Player.prototype.handleInput = function(keys) {
   if (keys === 'up') {
     this.direction = 'cima';
@@ -116,10 +112,27 @@ Player.prototype.handleInput = function(keys) {
   }
 };
 
-// Represente seus objetos como instâncias.
-// Coloque todos os objetos inimgos numa array allEnemies
-// Coloque o objeto do jogador numa variável chamada jogador.
+// Classe que gerencia o placar do jogo win x lose
+var Score = function() {
+  this.win = 0; // núm. de vezes que ganhou
+  this.lose = 0; //núm. de vezes que perdeu
+};
+
+Score.prototype.winCount = function(){
+  this.win += 1;
+};
+
+Score.prototype.loseCount = function(){
+  this.lose += 1;
+};
+
+Score.prototype.update = function(){
+  document.getElementById('win').innerHTML = this.win;
+  document.getElementById('lose').innerHTML = this.lose;
+}
+
 let player = new Player();
+
 let allEnemies = [
     new Enemy(200, 2, 270),
     new Enemy(2, 3, 150),
@@ -128,8 +141,10 @@ let allEnemies = [
     new Enemy(250, 1, 105)
 ];
 
-// Isto reconhece cliques em teclas e envia as chaves para seu
-// jogador. método handleInput(). Não é preciso mudar nada.
+let score = new Score();
+
+// Isto reconhece cliques em teclas e envia as chaves para o
+// jogador. Método handleInput().
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
         37: 'left',
