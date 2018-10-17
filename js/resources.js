@@ -1,11 +1,11 @@
 /* Resources.js
  * Esta é apenas uma funcionalidade de carregamento de imagens.
  * Facilita o processo de carregamento de imagens para que elas
- * possam ser usadas em seu jogo. Também inclui uma camada
- * simples de "caching", para que imagens cujo "cache" foi 
+ * possam ser usadas no jogo. Também inclui uma camada
+ * simples de "caching", para que imagens cujo "cache" foi
  * feito sejam reutilizadas caso você tente carregar a mesma
  * imagem várias vezes.
- * 
+ *
  */
 (function() {
     var resourceCache = {};
@@ -15,7 +15,7 @@
     /* Esta é a função de carregamento de imagens disponível
      * publicamente. Ela aceita uma array de strings que leva
      * a arquivos de imagem ou uma string de uma só imagem.
-     * Depois, chama nossa função privada de carregamento 
+     * Depois, chama nossa função privada de carregamento
      * de imagens de maneira adequada.
      */
     function load(urlOrArr) {
@@ -80,7 +80,7 @@
     }
 
     /* Isto é usado por desenvolvedores para pegar referências
-     * de imagens que eles sabem que já foram carregadas. Se o 
+     * de imagens que eles sabem que já foram carregadas. Se o
      * cache de uma imagem é feito, isso tem o mesmo efeito
      * que chamar load() naquela URL.
      */

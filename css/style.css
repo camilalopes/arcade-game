@@ -1,3 +1,42 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+
+
 body {
     text-align: center;
+}
+
+.score{
+  width: 250px;
+  right: 0;
+  margin: 30px 80px 0 0;
+  position: absolute;
+}
+
+.score h2{
+  font-family: 'Press Start 2P', cursive;
+  text-transform: uppercase;
+}
+
+.count{
+  box-sizing: border-box;
+  width: 50%;
+  float: left;
+}
+
+.count h3{
+  font-family: 'Roboto', sans-serif;
+  font-size: 1em;
+}
+
+.count p{
+  font-family: 'Press Start 2P', cursive;
+}
+
+.green{
+  color: green;
+}
+
+.red{
+  color: red;
 }

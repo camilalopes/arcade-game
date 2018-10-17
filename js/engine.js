@@ -1,12 +1,12 @@
 /* Engine.js
  * Este arquivo mostra a funcionalidade do loop do jogo (render e entidades
  * de update), esboça o tabuleiro inicial do jogo na tela e, depois, chama
- * os métodos update e render para os objetos dos inimigos e de seu jogador
- * (definidos em seu app.js).
+ * os métodos update e render para os objetos dos inimigos e do jogador
+ * (definidos em app.js).
  *
  * Um mecanismo de jogo desenha toda a tela do jogo várias vezes, meio
  * como um folioscópio, que dá a ilusão de "animação" às imagens.
- * Quando seu jogador se move pela tela, pode parecer que apenas aquele(a)
+ * Quando o jogador se move pela tela, pode parecer que apenas aquele(a)
  * imagem/personagem está se movendo ou sendo desenhado(a), mas esse não é
  * o caso. O que realmenbte ocorre é que toda a "cena" está sendo desenhada
  * diversas vezes, dando a ilusão de animação.
@@ -35,7 +35,7 @@ var Engine = (function(global) {
      * lida com as chamadas dos métodos render e update de forma adequada.
      */
     function main() {
-        /* Obtenha a informação delta de tempo, que é exigida caso seu jogo
+        /* Obtem a informação delta de tempo, que é exigida caso o jogo
          * requeira uma animação fluida. Como cada computador processa
          * instruções em velocidades diferentes, precisamos de um valor
          * de constante que seja o mesmo para todos (independentemente da
@@ -45,18 +45,18 @@ var Engine = (function(global) {
         var now = Date.now(),
             dt = (now - lastTime) / 1000.0;
 
-        /* Chame suas funções update/render e passe o delta de tempo para a
+        /* Chama as funções update/render e passa o delta de tempo para a
          * função update, pois ele pode ser usado para melhorar a animação.
          */
         update(dt);
         render();
 
-        /* Defina a variável lastTime, que será usada para definir o delta
+        /* Variável que será usada para definir o delta
          * de tempo na próxima vez em que essa função for chamada.
          */
         lastTime = now;
 
-        /* Use a função requestAnimationFrame do navegador para chamar essa
+        /* Usa a função requestAnimationFrame do navegador para chamar essa
          * função novamente quando o navegador puder desenhar outro frame.
          */
         win.requestAnimationFrame(main);
@@ -72,15 +72,9 @@ var Engine = (function(global) {
         main();
     }
 
-    /* Esta função é chamada pela principal (o loop de nosso jogo), e ela
+    /* Esta função é chamada pela principal (o loop do jogo), e ela
      * mesma chama todas as funções possivelmente necessárias para
-     * atualizar os dados da entidade. Com base na implementação de sua
-     * detecção de colisão (quando duas entidades ocupam o mesmo espaço -
-     * por exemplo, quando seu personagem deve morrer), você pode achar
-     * necessário adicionar mais uma chamada de função aqui. Por enquanto,
-     * só fizemos comentários - você pode implementar essa funcionalidade
-     * dessa maneira ou não (também pode implementar a detecção de colisão
-     * apenas nas próprias entidades, em seu arquivo app.js).
+     * atualizar os dados da entidade.
      */
     function update(dt) {
         checkCollisions();
@@ -91,8 +85,8 @@ var Engine = (function(global) {
 
     /* É chamada pela função update, faz loops por todos os objetos dentro
      * de sua array allEnemies, como definido no app.js, e chama
-     * seus métodos update(). Então, chama a função update do objeto de
-     * seu jogador. Esses métodos update devem focar apenas em atualizar
+     * seus métodos update(). Então, chama a função update do objeto do
+     * jogador. Esses métodos update devem focar apenas em atualizar
      * os dados/propriedades relacionados ao objeto. Faça seus desenhos
      * nos métodos render.
      */
@@ -101,6 +95,7 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
         player.update();
+        score.update();
     }
 
     // Para cada inimigo é verificado se houve colisão com o jogador
@@ -118,7 +113,7 @@ var Engine = (function(global) {
     /* Esta função primeiro deseha o "nível do jogo" e, depois, chama a
      * função renderEntities. Lembre-se de que esta função é chamada a
      * cada "tique" do jogo (ou loop do mecanismo do jogo), pois é como os
-     * jogos funionam - são folioscópios que geram a ilusão de animação,
+     * jogos funcionam - são folioscópios que geram a ilusão de animação,
      * mas estão apenas desenhando a mesma tela várias vezes.
      */
     function render() {
@@ -140,8 +135,8 @@ var Engine = (function(global) {
         // Antes de fazer os desenhos, limpe os canvas existentes
         ctx.clearRect(0,0,canvas.width,canvas.height)
 
-        /* Faça o loop pelo número de linhas e colunas que definimos acima
-         * e, usando a array rowImages, desenhe a imagem correta para
+        /* Faz o loop pelo número de linhas e colunas que definido acima
+         * e, usando a array rowImages, desenha a imagem correta para
          * aquela parte da "grade"
          */
         for (row = 0; row < numRows; row++) {
